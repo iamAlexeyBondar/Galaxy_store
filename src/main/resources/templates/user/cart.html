@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i&amp;display=swap">
+    <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/simple-line-icons.min.css" th:href="@{/css/simple-line-icons.min.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/vanilla-zoom.min.css" th:href="@{/css/vanilla-zoom.min.css}">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+        <div class="container"><a class="navbar-brand logo" th:href="@{/product}">Галактика</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/orders}">История заказов</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/cart}">Корзина</a></li>
+                    <li class="nav-item"><form class="mb-3" method="post" th:action="@{/logout}"><input class="btn btn-primary" type="submit" value="Выйти из личного кабинета"></form></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="page catalog-page">
+        <section class="clean-block clean-catalog dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2>Корзина товаров</h2>
+                    <p>Это именно то, о чем вы мечатли. <br> Отличный выбор!</p>
+                </div>
+                <div> <br>
+                    <h2 th:text="'Итоговая цена: ' + ${price}"></h2>
+                    <a href="/order/create">Оформить заказ</a>
+                </div> <br>
+                <div class="container" th:each="product : ${cart_product}">
+                    <div class="row">
+                        <div class="content">
+                            <div class="products">
+                                <div class="container">
+                                    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px"> <br>
+                                    <a th:href="@{/templates/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+                                    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+                                    <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
